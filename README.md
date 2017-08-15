@@ -2,11 +2,10 @@
 This Helm chart creates a redis deployment, exposes it via a service NodePort, and sets it to horizontally autoscale.
 It also deploys a memtier_benchmark pod to exercise the redis nodes
 
-* Assuming helm is already initalized...
 
 ## Install the helm chart
+**assuming helm is already installed/initalized...**
 
-eg
 `$ helm install --namespace=redisdemo redisdemo/ --name jeffredis`
 
 ```
@@ -64,3 +63,9 @@ redis-hpa   Deployment/redis-master   83% / 30%   3         50       47         
 ```
 
 * As new redis pods are replicated, the benchmark tool will not initiate net-new connections to the new pods until it is stopped and restarted. Use `ctrl-c` in the memtierbenchmark container to stop the workload and execute the same command `# /memtier_benchmark -s 10.21.122.187` to restart the workload. Kubernetes will automatically load-balance the connections from the benchmark tool across all the new pods. You may need to stop and start the workload a couple times to keep CPU high enough to continue auto-scaling out to 50 pods.
+
+To remove the helm installation and purge the release name for use again, run the `helm delete` command with the `--purge` option:
+```
+$ helm delete jeffredis --purge
+release "jeffredis" deleted
+```
