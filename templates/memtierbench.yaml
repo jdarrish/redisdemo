@@ -1,0 +1,16 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: memtierbenchmark
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: memtierbench
+    spec:
+      containers:
+      - name: memtierbench
+        image: redislabs/memtier_benchmark:latest
+        ports:
+        - containerPort: 22222
